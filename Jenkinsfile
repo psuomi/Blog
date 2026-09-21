@@ -28,5 +28,10 @@ pipeline {
                 sh 'docker run -d -p 3000:3000 --name blog blog'
             }
         }
+        stage('Nikto') {
+            steps {
+                sh 'nikto -h 172.17.0.1 -p 3000'
+            }
+        }
     }
 }
