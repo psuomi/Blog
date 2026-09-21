@@ -6,7 +6,7 @@ pipeline {
                 sh 'git pull origin main'
             }
         }
-        stage('Test image) {
+        stage('Test image') {
               steps {
                   sh 'trivy image node:20-alpine'
               }
