@@ -13,7 +13,7 @@ pipeline {
         }
         stage('Test code') {
             steps {
-                sh 'trivy fs --scanners vuln,secret,misconfig /home/server/Projects/Blog/'
+                sh 'trivy fs --scanners vuln,secret,misconfig .'
             }
         }
         stage('Build') {
