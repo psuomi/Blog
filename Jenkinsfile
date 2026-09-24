@@ -30,8 +30,8 @@ pipeline {
         }
         stage('Nikto') {
             steps {
-                //sh 'nikto -h 172.17.0.1 -p 3000'
-                sh 'docker run --rm --network host nikto -h http://localhost:3000'
+                sh 'nikto -h 172.17.0.1 -p 3000'
+                //sh 'docker run --rm --network host nikto -h http://localhost:3000'
             }
         }
     }
