@@ -30,7 +30,7 @@ pipeline {
         }
         stage('Nikto') {
             steps {
-                sh 'nikto -h 172.17.0.1 -p 3000'
+                sh 'nikto -h localhost -p 3000'
             }
         }
     }
