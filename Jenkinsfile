@@ -16,6 +16,12 @@ pipeline {
                 sh 'trivy fs --scanners vuln,secret,misconfig .'
             }
         }
+        stage('Unit tests') {
+            steps {
+                sh 'npm install'
+                sh 'npm run test'
+            }
+        }
         stage('Build') {
             steps {
                 sh 'docker build --pull --rm -f "Dockerfile" -t blog:latest "."'
