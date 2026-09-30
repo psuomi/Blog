@@ -1,5 +1,10 @@
 pipeline {
     agent any
+
+    tools {
+        nodejs 'NodeJS 20'
+    }
+
     stages {
         stage('Checkout') {
             steps {
@@ -16,6 +21,12 @@ pipeline {
                 sh 'trivy fs --scanners vuln,secret,misconfig .'
             }
         }
+        stage('Unit tests') {
+            steps {
+                sh 'npm install'
+                sh 'npm run test'
+            }
+        }
         stage('Build') {
             steps {
                 sh 'docker build --pull --rm -f "Dockerfile" -t blog:latest "."'
@@ -26,11 +37,6 @@ pipeline {
                 sh 'docker stop blog || true'
                 sh 'docker rm blog || true'
                 sh 'docker run -d -p 3000:3000 --name blog blog'
-            }
-        }
-        stage('Unit tests') {
-            steps {
-                sh 'docker exec blog npm run test'
             }
         }
         stage('Nikto') {
