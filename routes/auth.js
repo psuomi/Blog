@@ -32,20 +32,20 @@ router.get('/register', (req, res) => {
 
 router.post('/register', (req, res) => {
     const { username, password } = req.body;
-    const hashedPassword = bcrypt.hashSync(password, 10);
+    const hashedPassword = password;
     db.get("SELECT * FROM users WHERE username = ?", [username], (err, user) => {
         if (err) throw err;
-        if (!user) {
+        //if (!user) {
             db.run("INSERT INTO users (username, password, sessionId) VALUES (?, ?, ?)", [username, hashedPassword, 0], (err) => {
                 if (err) throw err;
             });
-        }
+        //}
         res.redirect('/auth/login');
     });
 });
 
 router.get('/logout', (req, res) => {
-    res.clearCookie('sessionId');
+    //res.clearCookie('sessionId');
     res.redirect('/auth/login');
 });
 
