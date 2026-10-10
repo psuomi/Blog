@@ -30,22 +30,25 @@ router.get('/register', (req, res) => {
     res.render('register', { title: 'Register' });
 });
 
+// comment line 36/37 for flaw, comment lines 40 & 44 for flaw
 router.post('/register', (req, res) => {
     const { username, password } = req.body;
-    const hashedPassword = password;
+    const hashedPassword = bcrypt.hashSync(password, 10);
+    //const hashedPassword = password;
     db.get("SELECT * FROM users WHERE username = ?", [username], (err, user) => {
         if (err) throw err;
-        //if (!user) {
+        if (!user) {
             db.run("INSERT INTO users (username, password, sessionId) VALUES (?, ?, ?)", [username, hashedPassword, 0], (err) => {
                 if (err) throw err;
             });
-        //}
+        }
         res.redirect('/auth/login');
     });
 });
 
+// comment line 51 for flaw
 router.get('/logout', (req, res) => {
-    //res.clearCookie('sessionId');
+    res.clearCookie('sessionId');
     res.redirect('/auth/login');
 });
 
